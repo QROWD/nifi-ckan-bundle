@@ -42,6 +42,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.system.IRIResolver;
 import org.apache.nifi.annotation.documentation.CapabilityDescription;
 import org.apache.nifi.annotation.documentation.Tags;
 import org.apache.nifi.annotation.lifecycle.OnScheduled;
@@ -159,9 +160,9 @@ public class DcatUploadProcessor extends AbstractProcessor {
             @Override
             public void process(InputStream in) throws IOException {
                 Dataset dataset = DatasetFactory.create();
-                RDFDataMgr.read(dataset, in, Lang.TURTLE);
+                RDFDataMgr.read(dataset, in, Lang.NQ);
                 Model dcatDataset = DcatExpandUtils.export(dataset, configuredRootDirPath);
-                DcatCkanDeployUtils.deploy(ckanClient, dcatDataset, null, false);
+                DcatCkanDeployUtils.deploy(ckanClient, dcatDataset, IRIResolver.create(configuredRootDirPath.toUri().toString()), false);
             }
         });
         flowFile = session.write(flowFile, new OutputStreamCallback() {
