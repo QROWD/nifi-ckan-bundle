@@ -76,7 +76,7 @@ public class DcatUploadProcessor extends AbstractProcessor {
             .required(true)
             .build();
     private static final PropertyDescriptor API_KEY = new PropertyDescriptor.Builder().name("API_KEY")
-            .displayName("CKAN Api Key")
+            .displayName("CKAN API Key")
             .description("Api Key to be used to interact with CKAN")
             .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
             .required(true)

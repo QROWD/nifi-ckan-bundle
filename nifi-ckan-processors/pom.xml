@@ -99,7 +99,7 @@
         </dependency>
         <dependency>
             <groupId>org.aksw.dcat-suite</groupId>
-            <artifactId>ckan-deploy-core</artifactId>
+            <artifactId>dcat-suite-binding-ckan</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
