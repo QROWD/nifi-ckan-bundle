@@ -73,12 +73,14 @@ public class DcatUploadProcessor extends AbstractProcessor {
             .displayName("CKAN URL")
             .description("Hostname of the CKAN instance to write to")
             .addValidator(StandardValidators.URL_VALIDATOR)
+            .expressionLanguageSupported(true)
             .required(true)
             .build();
     private static final PropertyDescriptor API_KEY = new PropertyDescriptor.Builder().name("API_KEY")
             .displayName("CKAN API Key")
             .description("Api Key to be used to interact with CKAN")
             .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
+            .expressionLanguageSupported(true)
             .required(true)
             .sensitive(true)
             .build();
@@ -166,8 +168,8 @@ public class DcatUploadProcessor extends AbstractProcessor {
             logger.error("Penalizing {} and transferring to failure due to {}", new Object[] { flowFile, t });
         }
 
-        CkanClient ckanClient = new CkanClient(context.getProperty(CKAN_URL).getValue(),
-                context.getProperty(API_KEY).getValue());
+        CkanClient ckanClient = new CkanClient(context.getProperty(CKAN_URL).evaluateAttributeExpressions().getValue(),
+                context.getProperty(API_KEY).evaluateAttributeExpressions().getValue());
 
         session.read(flowFile, new InputStreamCallback() {
             @Override
